@@ -24,6 +24,16 @@
         {
             return operation(a, b);
         }
+
+        // We can do the same as above without using a custom delegate, but a built in one
+        public static T OperateV2<T>(T a, T b, Func<T, T, T> operation)
+        {
+            return operation(a, b);
+        }
+
+        // Same as above, but OperateV3 now returns a different type, but takes type T
+        // Its written with lambda operator, but pretty much the same thing as above
+        public static TResult OperateV3<T, TResult>(T a, T b, Func<T, T, TResult> operation) => operation(a, b);
         public static void Main()
         {
             // Using a delegate with an instance of a class
@@ -86,8 +96,23 @@
 
             // Generic Method that takes a Generic Delegate
             // A more powerful way of using generic
-            Console.WriteLine(Operate(50, 50, addInt)); // 100
-            Console.WriteLine(Operate("Hello ", "World", concat));
+            int result1 = Operate<int>(50, 50, addInt);
+            string result2 = Operate<string>("Hello ", "World", concat);
+
+            Console.WriteLine(result1); // 100
+            Console.WriteLine(result2);
+
+            // Using a built in delegate instead
+            // Here the types are inferred
+            // OperateV2 returns int, takes int a, int b and func
+            // func infers int x, int y and return int from the expression
+            Console.WriteLine(OperateV2(100, 100, (x, y) => x + y)); // 200
+
+            // Lets take it one step further, say we want to return a string instead
+            // We can adjust the method to return string only, but still take ints
+            string result3 = OperateV3<int, string>(5, 5, (a, b) => (a + b).ToString());
+            Console.WriteLine(result3); // 10
+            Console.WriteLine(result3.GetType().Name); // String
         }
     }
     class Dog
