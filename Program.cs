@@ -33,6 +33,7 @@
 
         // Same as above, but OperateV3 now returns a different type, but takes type T
         // Its written with lambda operator, but pretty much the same thing as above
+        // Essentially operation is a callback function
         public static TResult OperateV3<T, TResult>(T a, T b, Func<T, T, TResult> operation) => operation(a, b);
         public static void Main()
         {
@@ -95,6 +96,7 @@
             Console.WriteLine(oldest.Name + " is " + oldest.Age + " years old and is oldest.");
 
             // Generic Method that takes a Generic Delegate
+            // Here the types are explict
             // A more powerful way of using generic
             int result1 = Operate<int>(50, 50, addInt);
             string result2 = Operate<string>("Hello ", "World", concat);
